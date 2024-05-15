@@ -40,7 +40,7 @@ class _PaginaPrincipalState extends State<PaginaPrincipal> {
             onPressed: () {
               Navigator.push(
                 context,
-                MaterialPageRoute(builder: (context) => AtividadesArquivadas()),
+                MaterialPageRoute(builder: (context) => AtividadesArquivadas(_atividadesArquivadas)),
               );
             },
           ),
@@ -78,46 +78,113 @@ class _PaginaPrincipalState extends State<PaginaPrincipal> {
             ),
           ),
           Expanded(
-            child: ListView.builder(
-              itemCount: _atividades.length,
-              itemBuilder: (context, index) {
-                return ListTile(
-                  title: Text(_atividades[index].titulo),
-                  subtitle: Text(_atividades[index].status),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (_atividades[index].status == 'A fazer')
-                        IconButton(
-                          icon: Icon(Icons.check),
-                          onPressed: () {
-                            setState(() {
-                              _atividades[index].status = 'Em andamento';
-                            });
-                          },
-                        ),
-                      if (_atividades[index].status == 'Em andamento')
-                        IconButton(
-                          icon: Icon(Icons.done),
-                          onPressed: () {
-                            setState(() {
-                              _atividades[index].status = 'Feito';
-                            });
-                          },
-                        ),
-                      IconButton(
+            child: ListView(
+              children: [
+                if (_atividades.isNotEmpty)
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                    child: Text(
+                      'A fazer',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.0,
+                      ),
+                    ),
+                  ),
+                for (var atividade in _atividades)
+                  if (atividade.status == 'A fazer')
+                    ListTile(
+                      title: Text(atividade.titulo),
+                      subtitle: Text(atividade.status),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.check),
+                            onPressed: () {
+                              setState(() {
+                                atividade.status = 'Em andamento';
+                              });
+                            },
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.archive),
+                            onPressed: () {
+                              setState(() {
+                                _atividadesArquivadas.add(atividade);
+                                _atividades.remove(atividade);
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                if (_atividades.any((atividade) => atividade.status == 'Em andamento'))
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                    child: Text(
+                      'Em andamento',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.0,
+                      ),
+                    ),
+                  ),
+                for (var atividade in _atividades)
+                  if (atividade.status == 'Em andamento')
+                    ListTile(
+                      title: Text(atividade.titulo),
+                      subtitle: Text(atividade.status),
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.done),
+                            onPressed: () {
+                              setState(() {
+                                atividade.status = 'Feito';
+                              });
+                            },
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.archive),
+                            onPressed: () {
+                              setState(() {
+                                _atividadesArquivadas.add(atividade);
+                                _atividades.remove(atividade);
+                              });
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                if (_atividades.any((atividade) => atividade.status == 'Feito'))
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                    child: Text(
+                      'Feito',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18.0,
+                      ),
+                    ),
+                  ),
+                for (var atividade in _atividades)
+                  if (atividade.status == 'Feito')
+                    ListTile(
+                      title: Text(atividade.titulo),
+                      subtitle: Text(atividade.status),
+                      trailing: IconButton(
                         icon: Icon(Icons.archive),
                         onPressed: () {
                           setState(() {
-                            _atividadesArquivadas.add(_atividades[index]);
-                            _atividades.removeAt(index);
+                            _atividadesArquivadas.add(atividade);
+                            _atividades.remove(atividade);
                           });
                         },
                       ),
-                    ],
-                  ),
-                );
-              },
+                    ),
+              ],
             ),
           ),
         ],
@@ -143,6 +210,10 @@ class Atividade {
 }
 
 class AtividadesArquivadas extends StatelessWidget {
+  final List<Atividade> _atividadesArquivadas;
+
+  AtividadesArquivadas(this._atividadesArquivadas);
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -150,11 +221,11 @@ class AtividadesArquivadas extends StatelessWidget {
         title: Text('Arquivadas'),
       ),
       body: ListView.builder(
-        itemCount: _PaginaPrincipalState()._atividadesArquivadas.length,
+        itemCount: _atividadesArquivadas.length,
         itemBuilder: (context, index) {
           return ListTile(
-            title: Text(_PaginaPrincipalState()._atividadesArquivadas[index].titulo),
-            subtitle: Text(_PaginaPrincipalState()._atividadesArquivadas[index].status),
+            title: Text(_atividadesArquivadas[index].titulo),
+            subtitle: Text(_atividadesArquivadas[index].status),
           );
         },
       ),
