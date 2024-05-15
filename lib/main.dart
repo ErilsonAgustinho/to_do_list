@@ -67,7 +67,7 @@ class _PaginaPrincipalState extends State<PaginaPrincipal> {
                   },
                   child: Text('NOVO'),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color.fromARGB(255, 0, 151, 136),
+                    backgroundColor: Colors.blue,
                     minimumSize: Size(5, 50),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(10),
