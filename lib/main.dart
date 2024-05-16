@@ -65,7 +65,7 @@ class _PaginaPrincipalState extends State<PaginaPrincipal> {
                   onPressed: () {
                     _adicionarAtividade();
                   },
-                  child: Text('NOVO'),
+                  child: Text('NOVO',style: TextStyle(color: Colors.white),),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: Colors.blue,
                     minimumSize: Size(5, 50),
