@@ -80,7 +80,7 @@ class _PaginaPrincipalState extends State<PaginaPrincipal> {
           Expanded(
             child: ListView(
               children: [
-                if (_atividades.isNotEmpty)
+                if (_atividades.any((atividade) => atividade.status == 'A fazer'))
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                     child: Text(
@@ -88,6 +88,7 @@ class _PaginaPrincipalState extends State<PaginaPrincipal> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18.0,
+                        color: Colors.blue,
                       ),
                     ),
                   ),
@@ -127,6 +128,7 @@ class _PaginaPrincipalState extends State<PaginaPrincipal> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18.0,
+                        color: Colors.blue,
                       ),
                     ),
                   ),
@@ -166,6 +168,7 @@ class _PaginaPrincipalState extends State<PaginaPrincipal> {
                       style: TextStyle(
                         fontWeight: FontWeight.bold,
                         fontSize: 18.0,
+                        color: Colors.blue,
                       ),
                     ),
                   ),
